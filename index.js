@@ -56,18 +56,22 @@ app.post("/register",async(req,res)=>{
         }
     }
     catch(e){
-        res.json({err:e.message});
+        console.log(e.message);
+        res.json({err:`Some issues occured : ${e.message}`});
     }
 })
 app.post("/login",async(req,res)=>{
     try{
         console.log(req.body);
         const {userName,password}=req.body;
+        if(!(userName && password)){
+            res.json({err:" Credientials should be there"});
+            return ;
+        }
         const SearchUsername= await  UserRegisterModel.findOne({"userName": userName });
         console.log(SearchUsername);
-        const {decryptedPassword}=SearchUsername;
-        if(SearchUsername?.decryptedPassword){
-        
+        if(SearchUsername){
+            const {decryptedPassword}=SearchUsername;
             const jwtCompare=await bcrypt.compare(password,SearchUsername?.decryptedPassword);
             console.log(jwtCompare);
 
@@ -83,12 +87,14 @@ app.post("/login",async(req,res)=>{
             }
         }
         else{
-            res.json({msg:"Sorry , User is not registered "});
+            res.json({err:"Sorry , User is not registered "});
             return ;
         }
     }
     catch(e){
-        res.json({err:e.message});
+        console.log(e.message);
+        res.json({err:`Some issues occured : ${e.message}`});
+
     }
 })
 
@@ -106,7 +112,7 @@ app.post("/userslist",async(req,res)=>{
     }
     catch(e){
         console.log(e.message);
-        res.json({err:e.message});
+        res.json({err:"Some issues occured"});
     }
 })
 // so basically we don't have to write a functionality for sign out on server side
