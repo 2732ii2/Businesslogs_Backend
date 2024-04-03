@@ -51,7 +51,7 @@ app.post("/register",async(req,res)=>{
             const token= await jsonwebtoken.sign({userName,userId,decryptedPassword},process.env.JsonPassword);
             console.log(token);
             console.log("congrates data is saved");
-            res.json({msg:"User is registered ",token:token});
+            res.json({msg:"User is registered ",token:token,userName});
             return ;
         }
     }
@@ -78,7 +78,7 @@ app.post("/login",async(req,res)=>{
             if(jwtCompare){
                 //  user name and password is correct 
                 const token= await jsonwebtoken.sign({userName,decryptedPassword},process.env.JsonPassword);
-                res.json({msg:"Succeessfully Login",token})
+                res.json({msg:"Succeessfully Login",token,userName})
                 return ;
             }
             else{
