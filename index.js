@@ -6,6 +6,8 @@ import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import connectMongoose from "./DB/mongoose.js";
 import UserRegisterModel from "./DB/Schema.js";
+import Datamodel from "./DB/DataSchema.js";
+import { DataInsertController,GetdatabyId } from "./Controllers/controller.js";
 
 
 const Port = process.env.Port || 7400;
@@ -98,6 +100,9 @@ app.post("/login",async(req,res)=>{
     }
 })
 
+app.post("/datainsert",DataInsertController);
+app.post("/viewData",GetdatabyId);
+
 
 app.post("/userslist",async(req,res)=>{
     console.log(req.body);
@@ -108,7 +113,7 @@ app.post("/userslist",async(req,res)=>{
         const userList =await UserRegisterModel.find();
         const users=userList.map(e=>e.userName);
         console.log(users.length,users);
-        res.json({'msg':"we will send a data"});
+        res.json({'msg':users});
     }
     catch(e){
         console.log(e.message);
