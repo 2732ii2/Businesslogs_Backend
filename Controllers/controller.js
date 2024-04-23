@@ -57,7 +57,8 @@ const GetdatabyId=async(req,res)=>{
         const jwtverification=await  jsonwebtoken.verify(authorization,process.env.JsonPassword);
         console.log(jwtverification);
         const datacount=(await Datamodel.find({type:type})).length;
-        const databyid=(await Datamodel.find({type:type})).slice((page-1)*5,page*5);
+        const databyid=(await Datamodel.find({type:type})).reverse()
+        .slice((page-1)*5,page*5);
         console.log({count:datacount,"data":databyid});
        res.status(200).json({msg:"Data Successfully recieved",count:datacount,"data":databyid});
         
