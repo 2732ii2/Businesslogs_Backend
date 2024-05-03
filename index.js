@@ -7,7 +7,7 @@ import jsonwebtoken from "jsonwebtoken";
 import connectMongoose from "./DB/mongoose.js";
 import UserRegisterModel from "./DB/Schema.js";
 import Datamodel from "./DB/DataSchema.js";
-import { DataInsertController,GetdatabyId } from "./Controllers/controller.js";
+import { DataInsertController,GetdatabyId,expenseCal } from "./Controllers/controller.js";
 
 
 const Port = process.env.Port || 7400;
@@ -102,6 +102,8 @@ app.post("/login",async(req,res)=>{
 
 app.post("/datainsert",DataInsertController);
 app.post("/viewData",GetdatabyId);
+app.post("/expensetracker",expenseCal);
+
 
 
 app.post("/userslist",async(req,res)=>{
