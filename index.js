@@ -7,15 +7,17 @@ import jsonwebtoken from "jsonwebtoken";
 import connectMongoose from "./DB/mongoose.js";
 import UserRegisterModel from "./DB/Schema.js";
 import Datamodel from "./DB/DataSchema.js";
-import { DataInsertController,GetdatabyId,expenseCal } from "./Controllers/controller.js";
-
+import bodyParser from 'body-parser';
+import multiparty  from 'multiparty' ;
+import { DataInsertController,GetdatabyId,expenseCal,Productadd, getProducts } from "./Controllers/controller.js";
 
 const Port = process.env.Port || 7400;
 
 const app=express();
 app.use(express.json());
 app.use(cors());
-
+app.use(bodyParser.json({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 connectMongoose();
 
 var noofRequest=0;
@@ -102,7 +104,10 @@ app.post("/login",async(req,res)=>{
 
 app.post("/datainsert",DataInsertController);
 app.post("/viewData",GetdatabyId);
+app.post("/getproducts",getProducts);
+
 app.post("/expensetracker",expenseCal);
+app.post("/addproduct",Productadd);
 
 
 
