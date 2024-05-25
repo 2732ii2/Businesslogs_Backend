@@ -187,24 +187,28 @@ const Productadd=async (req,res)=>{
         const verified=jsonwebtoken.verify(authorization,process.env.JsonPassword);
         console.log(verified);
         var form = new multiparty.Form();
-        await form.parse(req, function(err, fields, files) {
+        await form.parse(req,async function(err, fields, files) {
             if(Object.keys(files).length){
                 let {name,price}=fields;
                 let {image}=files;
                 console.log(price[0],name[0],image[0])
                 const validate=new ProductModel({Name:name[0],Image:image[0],Price:price[0]});
-                validate.save();
+                await validate.save();
+                console.log("after Data Submitted");
+                res.status(200).json({mes:'Data submitted'});
             }
             else{
                 let {name,price,image}=fields;
                 console.log(name[0],price[0],image[0]);
                 const validate=new ProductModel({Name:name[0],Image:image[0],Price:price[0]});
                 console.log(validate);
-                validate.save();
+                await validate.save();
+                console.log("after Data Submitted");
+                res.status(200).json({mes:'Data submitted'});
             }
         });
-        console.log("Data submitted");
-        res.status(200).json({mes:'Data submitted'});
+        // console.log("Data submitted");
+        // res.status(200).json({mes:'Data submitted'});
     }
     catch(e){
         console.log(e.message);
