@@ -9,7 +9,7 @@ import UserRegisterModel from "./DB/Schema.js";
 import Datamodel from "./DB/DataSchema.js";
 import bodyParser from 'body-parser';
 import multiparty  from 'multiparty' ;
-import { DataInsertController,GetdatabyId,expenseCal,Productadd, getProducts } from "./Controllers/controller.js";
+import { DataInsertController,GetdatabyId,expenseCal,Productadd, getProducts,Deleteproduct } from "./Controllers/controller.js";
 
 const Port = process.env.Port || 7400;
 
@@ -108,6 +108,8 @@ app.post("/getproducts",getProducts);
 
 app.post("/expensetracker",expenseCal);
 app.post("/addproduct",Productadd);
+app.post("/deleteproduct",Deleteproduct);
+
 
 
 

@@ -180,7 +180,19 @@ const expenseCal=async (req,res)=>{
     }
 }
 
-
+const Deleteproduct=async(req,res)=>{
+    const {authorization}=req.headers;
+    const {id}=req.body;
+    try{
+        const verified=jsonwebtoken.verify(authorization,process.env.JsonPassword);
+        console.log(verified); 
+        await ProductModel.deleteOne( { _id:id} );
+        res.status(200).json({msg:"Successfully deleted"});
+    }
+    catch(e){
+        res.status(e?400:401).json({msg:e?e.message:"not authorized user"});
+    }
+}
 const Productadd=async (req,res)=>{
     const {authorization}=req.headers;
     try{
@@ -235,4 +247,4 @@ const getProducts=async(req,res)=>{
         res.status(400).json({msg:e.message});
     }
 }
-export {DataInsertController,GetdatabyId,expenseCal,Productadd,getProducts};
+export {DataInsertController,GetdatabyId,expenseCal,Productadd,getProducts,Deleteproduct};
