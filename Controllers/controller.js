@@ -238,9 +238,17 @@ const getProducts=async(req,res)=>{
         const datacount=(await ProductModel.find()).length;
         const databyid=(await ProductModel.find())
         .reverse()
+        const newdata=databyid.map(e=>e.Name);
+        console.log(newdata);
         // .slice((page-1)*5,page*5);
-        console.log({count:datacount,"data":databyid});
-       res.status(200).json({msg:"Data Successfully recieved",count:datacount,"data":databyid});
+        // console.log({count:datacount,"data":databyid});
+        if(type=="list"){
+            res.status(200).json({msg:"Data Successfully recieved",count:datacount,"data":newdata});
+        }
+        else{
+            res.status(200).json({msg:"Data Successfully recieved",count:datacount,"data":databyid});
+        }
+       
         
     }
     catch(e){
